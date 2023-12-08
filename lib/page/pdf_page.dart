@@ -47,14 +47,14 @@ class _PdfPageState extends State<PdfPage> {
                       supplier: const Supplier(
                           name: 'Faysal Neowaz',
                           address:
-                              'PORT OF PORT ARTHUR NAV DIST. OF JEFFERSON COUNTRY TEXAS P O BOX 1428',
+                              'COE & Company PORT, 4713 Utica St, Metairie, LA 70006',
                           paymentInfo: 'https://paypal.me/codespec',
-                          phone: '409/983-2011'),
+                          phone: '(504) 885-8686'),
                       customer: const Customer(
-                          name: 'Google',
+                          name: 'COE & Company',
                           address: 'Mountain View, California, United States',
-                          email: 'invoice.US@g2ocean.com',
-                          phone: '+639178101363'),
+                          email: 'coe@coesolutions.com',
+                          phone: '(504) 885-8686'),
                       info: InvoiceInfo(
                         date: date,
                         dueDate: dueDate,
@@ -102,6 +102,38 @@ class _PdfPageState extends State<PdfPage> {
                           shipQuantity: 800,
                           tax: 'N',
                           unitPrice: 937.5,
+                        ),
+                        const InvoiceItem(
+                          extendedPrice: 550600,
+                          itemNumber: 'New Item',
+                          orderQuantity: 200,
+                          shipQuantity: 1800,
+                          tax: 'Y',
+                          unitPrice: 327.5,
+                        ),
+                        const InvoiceItem(
+                          extendedPrice: 563200,
+                          itemNumber: 'Other Item',
+                          orderQuantity: 2800,
+                          shipQuantity: 5460,
+                          tax: 'N',
+                          unitPrice: 1247.5,
+                        ),
+                        const InvoiceItem(
+                          extendedPrice: 1003200,
+                          itemNumber: 'Expensive Item',
+                          orderQuantity: 53000,
+                          shipQuantity: 543260,
+                          tax: 'N',
+                          unitPrice: 42247.5,
+                        ),
+                        const InvoiceItem(
+                          extendedPrice: 43200,
+                          itemNumber: 'Cute Item',
+                          orderQuantity: 290,
+                          shipQuantity: 144943,
+                          tax: 'N',
+                          unitPrice: 34335.5,
                         ),
                       ],
                     );

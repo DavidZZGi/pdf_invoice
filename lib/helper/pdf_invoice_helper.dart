@@ -15,6 +15,7 @@ class PdfInvoicePdfHelper {
     final pdf = Document();
 
     pdf.addPage(MultiPage(
+      margin: const EdgeInsets.all(16),
       build: (context) => [
         buildHeader(invoice),
         SizedBox(height: 1 * PdfPageFormat.cm),
@@ -46,8 +47,7 @@ class PdfInvoicePdfHelper {
               Column(children: [
                 Container(
                     child: Text('Invoice',
-                        style: TextStyle(
-                            fontSize: 12, fontWeight: FontWeight.bold))),
+                        style: TextStyle(fontWeight: FontWeight.bold))),
                 Padding(padding: const EdgeInsets.only(bottom: 20)),
                 buildSmallTable(invoice.info.number,
                     invoice.customer.customerNo ?? 'G2 OCEAN'),
@@ -104,23 +104,24 @@ class PdfInvoicePdfHelper {
           Padding(padding: const EdgeInsets.only(top: 10)),
           Text(supplier.address),
           Padding(padding: const EdgeInsets.only(top: 10)),
-          Text('Telephone: ${supplier.phone!}'),
+          RichText(
+            text: TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                  text: 'Telephone',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                TextSpan(
+                  text: ': ${supplier.phone}',
+                ),
+              ],
+            ),
+          ),
           // SizedBox(height: 1 * PdfPageFormat.mm),
         ],
       ));
-
-  static Widget buildTitle(Invoice invoice) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Fist PDF',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 0.8 * PdfPageFormat.cm),
-          Text(invoice.info.description),
-          SizedBox(height: 0.8 * PdfPageFormat.cm),
-        ],
-      );
 
   static Widget buildInvoice(Invoice invoice) {
     final headers = [
@@ -131,9 +132,8 @@ class PdfInvoicePdfHelper {
       'Unit Price',
       'Extended Price'
     ];
-    final data = invoice.items.map((item) {
-      final total = item.unitPrice * item.orderQuantity;
 
+    final data = invoice.items.map((item) {
       return [
         item.orderQuantity,
         item.shipQuantity,
@@ -145,12 +145,15 @@ class PdfInvoicePdfHelper {
     }).toList();
 
     return Table.fromTextArray(
+      headerDecoration: BoxDecoration(border: Border.all()),
       headers: headers,
       data: data,
-      border: TableBorder.symmetric(
-          outside: const BorderSide(), inside: BorderSide()),
+      border: const TableBorder(
+          verticalInside: BorderSide(),
+          bottom: BorderSide(),
+          right: BorderSide(),
+          left: BorderSide()),
       headerStyle: TextStyle(fontWeight: FontWeight.bold),
-      headerDecoration: const BoxDecoration(color: PdfColors.grey300),
       cellHeight: 30,
       cellAlignments: {
         0: Alignment.centerLeft,
@@ -163,61 +166,57 @@ class PdfInvoicePdfHelper {
     );
   }
 
-  static Widget buildFooter(Invoice invoice, int pages) => Container(
-      padding: const EdgeInsets.only(top: 2),
-      width: 200,
-      child: Table(border: TableBorder.all(), children: [
-        TableRow(
-          children: [
-            Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Text(
-                    'Print Date',
+  static Widget buildFooter(Invoice invoice, int pages) {
+    final bold = TextStyle(fontWeight: FontWeight.bold);
+    return Container(
+        width: 200,
+        child: Table(border: TableBorder.all(), children: [
+          TableRow(
+            children: [
+              Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Text('Print Date', style: bold),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Text(
-                    'Print Time',
+                  Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Text('Print Time', style: bold),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Text(
-                    'Page No',
+                  Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Text('Page No', style: bold),
                   ),
-                ),
-              ],
-            ),
-            Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Text(
-                    Utils.formatDate(invoice.info.date),
+                ],
+              ),
+              Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Text(
+                      Utils.formatDate(invoice.info.date),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Text(
-                    DateFormat('h:mm:ss a').format(invoice.info.date),
+                  Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Text(
+                      DateFormat('h:mm:ss a').format(invoice.info.date),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(4),
-                  child: Text(
-                    pages.toString(),
+                  Padding(
+                    padding: const EdgeInsets.all(4),
+                    child: Text(
+                      pages.toString(),
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ]));
+                ],
+              ),
+            ],
+          ),
+        ]));
+  }
 
   static buildSimpleText({
     required String title,
@@ -374,12 +373,55 @@ class PdfInvoicePdfHelper {
         ]),
       ]);
 
-  static contactWidget(Customer customer) =>
-      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text('Contact: ${customer.name}'),
-        Text('Telephone: ${customer.phone}'),
-        Text('E-mail: ${customer.email}'),
-      ]);
+  static contactWidget(Customer customer) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      RichText(
+        text: TextSpan(
+          children: <TextSpan>[
+            TextSpan(
+              text: 'Contact',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            TextSpan(
+              text: ': ${customer.name}',
+            ),
+          ],
+        ),
+      ),
+      RichText(
+        text: TextSpan(
+          children: <TextSpan>[
+            TextSpan(
+              text: 'Telephone',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            TextSpan(
+              text: ': ${customer.phone}',
+            ),
+          ],
+        ),
+      ),
+      RichText(
+        text: TextSpan(
+          children: <TextSpan>[
+            TextSpan(
+              text: 'E-mail',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            TextSpan(
+              text: ': ${customer.email}',
+            ),
+          ],
+        ),
+      )
+    ]);
+  }
 
   static tableHeader1(TableData tableData) {
     final headers1 = [
@@ -390,12 +432,14 @@ class PdfInvoicePdfHelper {
       'Costumer PO Number',
       'Payment Method'
     ];
+    final headerStyle = TextStyle(fontWeight: FontWeight.bold);
 
     return Table(border: TableBorder.all(), children: [
       TableRow(
           children: List.generate(
         headers1.length,
-        (index) => Column(children: [Text(headers1[index])]),
+        (index) =>
+            Column(children: [Text(headers1[index], style: headerStyle)]),
       )),
       TableRow(children: [
         Column(children: [Text(Utils.formatDate(tableData.invoiceDate))]),
@@ -409,6 +453,7 @@ class PdfInvoicePdfHelper {
   }
 
   static tableHeader2(TableData tableData) {
+    final headerStyle = TextStyle(fontWeight: FontWeight.bold);
     final headers2 = [
       'Warehouse',
       'Ship Via',
@@ -420,7 +465,8 @@ class PdfInvoicePdfHelper {
       TableRow(
           children: List.generate(
         headers2.length,
-        (index) => Column(children: [Text(headers2[index])]),
+        (index) =>
+            Column(children: [Text(headers2[index], style: headerStyle)]),
       )),
       TableRow(children: [
         Column(children: [Text(tableData.warehouse)]),
