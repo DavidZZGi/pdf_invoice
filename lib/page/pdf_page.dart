@@ -103,6 +103,38 @@ class PdfPageState extends State<PdfPage> {
                           tax: 'N',
                           unitPrice: 937.5,
                         ),
+                        const InvoiceItem(
+                          extendedPrice: 550600,
+                          itemNumber: 'New Item',
+                          orderQuantity: 200,
+                          shipQuantity: 1800,
+                          tax: 'Y',
+                          unitPrice: 327.5,
+                        ),
+                        const InvoiceItem(
+                          extendedPrice: 563200,
+                          itemNumber: 'Other Item',
+                          orderQuantity: 2800,
+                          shipQuantity: 5460,
+                          tax: 'N',
+                          unitPrice: 1247.5,
+                        ),
+                        const InvoiceItem(
+                          extendedPrice: 1003200,
+                          itemNumber: 'Expensive Item',
+                          orderQuantity: 53000,
+                          shipQuantity: 543260,
+                          tax: 'N',
+                          unitPrice: 42247.5,
+                        ),
+                        const InvoiceItem(
+                          extendedPrice: 43200,
+                          itemNumber: 'Cute Item',
+                          orderQuantity: 290,
+                          shipQuantity: 144943,
+                          tax: 'N',
+                          unitPrice: 34335.5,
+                        ),
                       ],
                     );
                     
