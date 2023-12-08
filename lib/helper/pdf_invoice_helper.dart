@@ -4,7 +4,8 @@ import 'package:generate_pdf/model/customer.dart';
 import 'package:generate_pdf/model/invoice.dart';
 import 'package:generate_pdf/model/supplier.dart';
 import 'package:generate_pdf/model/table_data.dart';
-import 'package:generate_pdf/utils.dart';
+import 'package:generate_pdf/utils/font_size_vars.dart';
+import 'package:generate_pdf/utils/utils.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -99,8 +100,14 @@ class PdfInvoicePdfHelper {
       ));
 
   static Widget buildInvoice(Invoice invoice) {
-    final headerStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 12);
-    const cellStyle = TextStyle(fontSize: 11);
+    final headerStyle = TextStyle(
+      fontWeight: FontWeight.bold,
+      fontSize: FontSizeVars.fontSizeHeader,
+    );
+    const cellStyle = TextStyle(
+      fontSize: FontSizeVars.fontSizeData,
+    );
+
     const String orderQuantity = 'Order Quantity';
     const String shipQuantity = 'Ship Quantity';
     const String tax = 'Tax';
@@ -151,7 +158,10 @@ class PdfInvoicePdfHelper {
   }
 
   static Widget buildFooter(Invoice invoice, int pages) {
-    final bold = TextStyle(fontWeight: FontWeight.bold);
+    final styleHeader = TextStyle(
+        fontWeight: FontWeight.bold, fontSize: FontSizeVars.fontSizeHeader);
+    const styleData = TextStyle(fontSize: FontSizeVars.fontSizeData);
+
     return Container(
         width: 200,
         child: Table(border: TableBorder.all(), children: [
@@ -162,15 +172,15 @@ class PdfInvoicePdfHelper {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(4),
-                    child: Text('Print Date', style: bold),
+                    child: Text('Print Date', style: styleHeader),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(4),
-                    child: Text('Print Time', style: bold),
+                    child: Text('Print Time', style: styleHeader),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(4),
-                    child: Text('Page No', style: bold),
+                    child: Text('Page No', style: styleHeader),
                   ),
                 ],
               ),
@@ -181,18 +191,21 @@ class PdfInvoicePdfHelper {
                     padding: const EdgeInsets.all(4),
                     child: Text(
                       Utils.formatDate(invoice.info.date),
+                      style: styleData,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(4),
                     child: Text(
                       DateFormat('h:mm:ss a').format(invoice.info.date),
+                      style: styleData,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(4),
                     child: Text(
                       pages.toString(),
+                      style: styleData,
                     ),
                   ),
                 ],
