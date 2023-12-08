@@ -14,20 +14,23 @@ class PdfInvoicePdfHelper {
   static Future<File> generate(Invoice invoice, TableData tableData) async {
     final pdf = Document();
 
-    pdf.addPage(MultiPage(
-      build: (context) => [
-        buildHeader(invoice),
-        SizedBox(height: 1 * PdfPageFormat.cm),
-        middleWidgetZone(invoice),
-        SizedBox(height: 0.3 * PdfPageFormat.cm),
-        tableHeader1(tableData),
-        tableHeader2(tableData),
-        buildInvoice(invoice),
+    pdf.addPage(
+      MultiPage(
+        margin: const pw.EdgeInsets.all(16),
+        build: (context) => [
+          buildHeader(invoice),
+          SizedBox(height: 1 * PdfPageFormat.cm),
+          middleWidgetZone(invoice),
+          SizedBox(height: 0.3 * PdfPageFormat.cm),
+          tableHeader1(tableData),
+          tableHeader2(tableData),
+          buildInvoice(invoice),
 
-        // buildTotal(invoice),
-      ],
-      footer: (context) => buildFooter(invoice, context.pageNumber),
-    ));
+          // buildTotal(invoice),
+        ],
+        footer: (context) => buildFooter(invoice, context.pageNumber),
+      ),
+    );
 
     return PdfHelper.saveDocument(name: 'my_invoice.pdf', pdf: pdf);
   }
@@ -132,7 +135,7 @@ class PdfInvoicePdfHelper {
       'Extended Price'
     ];
     final data = invoice.items.map((item) {
-      final total = item.unitPrice * item.orderQuantity;
+      //final total = item.unitPrice * item.orderQuantity;
 
       return [
         item.orderQuantity,
@@ -148,7 +151,7 @@ class PdfInvoicePdfHelper {
       headers: headers,
       data: data,
       border: TableBorder.symmetric(
-          outside: const BorderSide(), inside: BorderSide()),
+          outside: const BorderSide(), inside: const BorderSide()),
       headerStyle: TextStyle(fontWeight: FontWeight.bold),
       headerDecoration: const BoxDecoration(color: PdfColors.grey300),
       cellHeight: 30,

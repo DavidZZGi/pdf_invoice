@@ -13,10 +13,10 @@ class PdfPage extends StatefulWidget {
   const PdfPage({super.key});
 
   @override
-  _PdfPageState createState() => _PdfPageState();
+  PdfPageState createState() => PdfPageState();
 }
 
-class _PdfPageState extends State<PdfPage> {
+class PdfPageState extends State<PdfPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: const Color.fromARGB(66, 196, 194, 194),
@@ -47,14 +47,14 @@ class _PdfPageState extends State<PdfPage> {
                       supplier: const Supplier(
                           name: 'Faysal Neowaz',
                           address:
-                              'PORT OF PORT ARTHUR NAV DIST. OF JEFFERSON COUNTRY TEXAS P O BOX 1428',
+                              'COE & Company PORT, 4713 Utica St, Metairie, LA 70006',
                           paymentInfo: 'https://paypal.me/codespec',
-                          phone: '409/983-2011'),
+                          phone: '(504) 885-8686'),
                       customer: const Customer(
-                          name: 'Google',
+                          name: 'COE & Company',
                           address: 'Mountain View, California, United States',
-                          email: 'invoice.US@g2ocean.com',
-                          phone: '+639178101363'),
+                          email: 'coe@coesolutions.com',
+                          phone: '(504) 885-8686'),
                       info: InvoiceInfo(
                         date: date,
                         dueDate: dueDate,
@@ -105,6 +105,7 @@ class _PdfPageState extends State<PdfPage> {
                         ),
                       ],
                     );
+                    
                     TableData tableDataInstance = TableData(
                       soNumber: '123456',
                       invoiceDate: DateTime.now(),
