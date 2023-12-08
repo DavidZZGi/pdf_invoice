@@ -5,6 +5,7 @@ import 'package:generate_pdf/main.dart';
 import 'package:generate_pdf/model/customer.dart';
 import 'package:generate_pdf/model/invoice.dart';
 import 'package:generate_pdf/model/supplier.dart';
+import 'package:generate_pdf/model/table_data.dart';
 import 'package:generate_pdf/widget/button_widget.dart';
 import 'package:generate_pdf/widget/title_widget.dart';
 
@@ -44,74 +45,91 @@ class _PdfPageState extends State<PdfPage> {
 
                     final invoice = Invoice(
                       supplier: const Supplier(
-                        name: 'Faysal Neowaz',
-                        address: 'Dhaka, Bangladesh',
-                        paymentInfo: 'https://paypal.me/codespec',
-                      ),
+                          name: 'Faysal Neowaz',
+                          address:
+                              'PORT OF PORT ARTHUR NAV DIST. OF JEFFERSON COUNTRY TEXAS P O BOX 1428',
+                          paymentInfo: 'https://paypal.me/codespec',
+                          phone: '409/983-2011'),
                       customer: const Customer(
-                        name: 'Google',
-                        address: 'Mountain View, California, United States',
-                      ),
+                          name: 'Google',
+                          address: 'Mountain View, California, United States',
+                          email: 'invoice.US@g2ocean.com',
+                          phone: '+639178101363'),
                       info: InvoiceInfo(
                         date: date,
                         dueDate: dueDate,
-                        description: 'First Order Invoice',
+                        description:
+                            'G2 OCEAN US, INC 600 GALLERIA PARKWAY SUITE 925 ATLANTA,GA 30339 ',
                         number: '${DateTime.now().year}-9999',
                       ),
                       items: [
-                        InvoiceItem(
-                          description: 'Coffee',
-                          date: DateTime.now(),
-                          quantity: 3,
-                          vat: 0.19,
-                          unitPrice: 5.99,
+                        const InvoiceItem(
+                          extendedPrice: 1663473,
+                          itemNumber: 'LOAD ST Loading-ST',
+                          orderQuantity: 2025.0886,
+                          shipQuantity: 2025.0886,
+                          tax: 'N',
+                          unitPrice: 83200,
                         ),
-                        InvoiceItem(
-                          description: 'Water',
-                          date: DateTime.now(),
-                          quantity: 8,
-                          vat: 0.19,
-                          unitPrice: 0.99,
+                        const InvoiceItem(
+                          extendedPrice: 2000000,
+                          itemNumber: 'Another Item',
+                          orderQuantity: 1000,
+                          shipQuantity: 950,
+                          tax: 'Y',
+                          unitPrice: 2000,
                         ),
-                        InvoiceItem(
-                          description: 'Orange',
-                          date: DateTime.now(),
-                          quantity: 3,
-                          vat: 0.19,
-                          unitPrice: 2.99,
+                        const InvoiceItem(
+                          extendedPrice: 1200000,
+                          itemNumber: 'Sample Item',
+                          orderQuantity: 500,
+                          shipQuantity: 500,
+                          tax: 'N',
+                          unitPrice: 2400,
                         ),
-                        InvoiceItem(
-                          description: 'Apple',
-                          date: DateTime.now(),
-                          quantity: 8,
-                          vat: 0.19,
-                          unitPrice: 3.99,
+                        const InvoiceItem(
+                          extendedPrice: 500000,
+                          itemNumber: 'Test Item',
+                          orderQuantity: 3000,
+                          shipQuantity: 2900,
+                          tax: 'Y',
+                          unitPrice: 150,
                         ),
-                        InvoiceItem(
-                          description: 'Mango',
-                          date: DateTime.now(),
-                          quantity: 1,
-                          vat: 0.19,
-                          unitPrice: 1.59,
-                        ),
-                        InvoiceItem(
-                          description: 'Blue Berries',
-                          date: DateTime.now(),
-                          quantity: 5,
-                          vat: 0.19,
-                          unitPrice: 0.99,
-                        ),
-                        InvoiceItem(
-                          description: 'Lemon',
-                          date: DateTime.now(),
-                          quantity: 4,
-                          vat: 0.19,
-                          unitPrice: 1.29,
+                        const InvoiceItem(
+                          extendedPrice: 750000,
+                          itemNumber: 'Special Item',
+                          orderQuantity: 800,
+                          shipQuantity: 800,
+                          tax: 'N',
+                          unitPrice: 937.5,
                         ),
                       ],
                     );
+                    TableData tableDataInstance = TableData(
+                      soNumber: '123456',
+                      invoiceDate: DateTime.now(),
+                      orderDate: DateTime(2023, 1, 1),
+                      orderBy: 'John Doe',
+                      customerPoNumber: 'PO123',
+                      paymentMethod: 'Credit Card',
+                      warehouse: 'Main Warehouse',
+                      shipVia: 'UPS',
+                      fob: 'FOB Shipping Point',
+                      salesPerson: 'Alice Smith',
+                      resaleNumber: 12345.67,
+                      orderQuantity: 100,
+                      shipQuantity: 95,
+                      tax: 8.5,
+                      itemNumber: 'ITEM123',
+                      unitPrice: 25.5,
+                      extendedPrice: 2422.5,
+                      printDate: '2023-12-01',
+                      printTime: '10:30 AM',
+                      pageNumber: 1,
+                    );
 
-                    final pdfFile = await PdfInvoicePdfHelper.generate(invoice);
+                    final pdfFile = await PdfInvoicePdfHelper.generate(
+                        invoice, tableDataInstance);
 
                     PdfHelper.openFile(pdfFile);
                   },

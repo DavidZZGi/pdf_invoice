@@ -30,17 +30,18 @@ class InvoiceInfo {
 }
 
 class InvoiceItem {
-  final String description;
-  final DateTime date;
-  final int quantity;
-  final double vat;
+  final double orderQuantity;
+  final double shipQuantity;
+  final String tax;
+  final String itemNumber;
   final double unitPrice;
+  final double extendedPrice;
 
-  const InvoiceItem({
-    required this.description,
-    required this.date,
-    required this.quantity,
-    required this.vat,
-    required this.unitPrice,
-  });
+  const InvoiceItem(
+      {required this.extendedPrice,
+      required this.itemNumber,
+      required this.orderQuantity,
+      required this.shipQuantity,
+      required this.unitPrice,
+      required this.tax});
 }
