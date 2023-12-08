@@ -65,32 +65,6 @@ class PdfInvoicePdfHelper {
         ],
       );
 
-  static Widget buildInvoiceInfo(InvoiceInfo info) {
-    final paymentTerms = '${info.dueDate.difference(info.date).inDays} days';
-    final titles = <String>[
-      'Invoice Number:',
-      'Invoice Date:',
-      'Payment Terms:',
-      'Due Date:'
-    ];
-    final data = <String>[
-      info.number,
-      Utils.formatDate(info.date),
-      paymentTerms,
-      Utils.formatDate(info.dueDate),
-    ];
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: List.generate(titles.length, (index) {
-        final title = titles[index];
-        final value = data[index];
-
-        return buildText(title: title, value: value, width: 200);
-      }),
-    );
-  }
-
   static Widget buildSupplierAddress(Supplier supplier) => Padding(
       padding: const EdgeInsets.only(top: 40),
       child: Column(
@@ -119,18 +93,23 @@ class PdfInvoicePdfHelper {
               ],
             ),
           ),
-          // SizedBox(height: 1 * PdfPageFormat.mm),
         ],
       ));
 
   static Widget buildInvoice(Invoice invoice) {
+    const String orderQuantity = 'Order Quantity';
+    const String shipQuantity = 'Ship Quantity';
+    const String tax = 'Tax';
+    const String itemNumber = 'Item Number/Description';
+    const String unitPrice = 'Unit Price';
+    const String extendedPrice = 'Extended Price';
     final headers = [
-      'Order Quantity',
-      'Ship Quantity',
-      'Tax',
-      'Item Number/Description',
-      'Unit Price',
-      'Extended Price'
+      orderQuantity,
+      shipQuantity,
+      tax,
+      itemNumber,
+      unitPrice,
+      extendedPrice
     ];
 
     final data = invoice.items.map((item) {
@@ -424,13 +403,19 @@ class PdfInvoicePdfHelper {
   }
 
   static tableHeader1(TableData tableData) {
+    const String invoiceDate = 'Invoice Date';
+    const String orderDate = 'Order Date';
+    const String soNumber = 'SO Number';
+    const String orderBy = 'Ordered By';
+    const String customerPoNumber = 'Costumer PO Number';
+    const String paymentMethod = 'Payment Method';
     final headers1 = [
-      'Invoice Date',
-      'Order Date',
-      'SO Number',
-      'Ordered By',
-      'Costumer PO Number',
-      'Payment Method'
+      invoiceDate,
+      orderDate,
+      soNumber,
+      orderBy,
+      customerPoNumber,
+      paymentMethod
     ];
     final headerStyle = TextStyle(fontWeight: FontWeight.bold);
 
@@ -454,12 +439,18 @@ class PdfInvoicePdfHelper {
 
   static tableHeader2(TableData tableData) {
     final headerStyle = TextStyle(fontWeight: FontWeight.bold);
+    const String warehouse = 'Warehouse';
+    const String shipVia = 'Ship Via';
+    const String fob = 'FOB';
+    const String salesPerson = 'Salesperson';
+    const String resaleNumber = 'Resale Number';
+
     final headers2 = [
-      'Warehouse',
-      'Ship Via',
-      'FOB',
-      'Salesperson',
-      'Resale Number',
+      warehouse,
+      shipVia,
+      fob,
+      salesPerson,
+      resaleNumber,
     ];
     return Table(border: TableBorder.all(), children: [
       TableRow(
