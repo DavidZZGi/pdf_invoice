@@ -47,7 +47,9 @@ class PdfInvoicePdfHelper {
               Column(children: [
                 Container(
                     child: Text('Invoice',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ))),
                 Padding(padding: const EdgeInsets.only(bottom: 20)),
                 buildSmallTable(invoice.info.number,
                     invoice.customer.customerNo ?? 'G2 OCEAN'),
@@ -97,6 +99,8 @@ class PdfInvoicePdfHelper {
       ));
 
   static Widget buildInvoice(Invoice invoice) {
+    final headerStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 12);
+    const cellStyle = TextStyle(fontSize: 11);
     const String orderQuantity = 'Order Quantity';
     const String shipQuantity = 'Ship Quantity';
     const String tax = 'Tax';
@@ -132,7 +136,8 @@ class PdfInvoicePdfHelper {
           bottom: BorderSide(),
           right: BorderSide(),
           left: BorderSide()),
-      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerStyle: headerStyle,
+      cellStyle: cellStyle,
       cellHeight: 30,
       cellAlignments: {
         0: Alignment.centerLeft,
@@ -417,8 +422,8 @@ class PdfInvoicePdfHelper {
       customerPoNumber,
       paymentMethod
     ];
-    final headerStyle = TextStyle(fontWeight: FontWeight.bold);
-
+    final headerStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 12);
+    const cellStyle = TextStyle(fontSize: 11);
     return Table(border: TableBorder.all(), children: [
       TableRow(
           children: List.generate(
@@ -427,18 +432,23 @@ class PdfInvoicePdfHelper {
             Column(children: [Text(headers1[index], style: headerStyle)]),
       )),
       TableRow(children: [
-        Column(children: [Text(Utils.formatDate(tableData.invoiceDate))]),
-        Column(children: [Text(Utils.formatDate(tableData.orderDate))]),
-        Column(children: [Text(tableData.soNumber)]),
-        Column(children: [Text(tableData.orderBy)]),
-        Column(children: [Text(tableData.customerPoNumber)]),
-        Column(children: [Text(tableData.paymentMethod)]),
+        Column(children: [
+          Text(Utils.formatDate(tableData.invoiceDate), style: cellStyle)
+        ]),
+        Column(children: [
+          Text(Utils.formatDate(tableData.orderDate), style: cellStyle)
+        ]),
+        Column(children: [Text(tableData.soNumber, style: cellStyle)]),
+        Column(children: [Text(tableData.orderBy, style: cellStyle)]),
+        Column(children: [Text(tableData.customerPoNumber, style: cellStyle)]),
+        Column(children: [Text(tableData.paymentMethod, style: cellStyle)]),
       ]),
     ]);
   }
 
   static tableHeader2(TableData tableData) {
-    final headerStyle = TextStyle(fontWeight: FontWeight.bold);
+    final headerStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 12);
+    const cellStyle = TextStyle(fontSize: 11);
     const String warehouse = 'Warehouse';
     const String shipVia = 'Ship Via';
     const String fob = 'FOB';
@@ -460,11 +470,13 @@ class PdfInvoicePdfHelper {
             Column(children: [Text(headers2[index], style: headerStyle)]),
       )),
       TableRow(children: [
-        Column(children: [Text(tableData.warehouse)]),
-        Column(children: [Text(tableData.shipVia)]),
-        Column(children: [Text(tableData.fob)]),
-        Column(children: [Text(tableData.salesPerson)]),
-        Column(children: [Text(tableData.resaleNumber.toString())]),
+        Column(children: [Text(tableData.warehouse, style: cellStyle)]),
+        Column(children: [Text(tableData.shipVia, style: cellStyle)]),
+        Column(children: [Text(tableData.fob, style: cellStyle)]),
+        Column(children: [Text(tableData.salesPerson, style: cellStyle)]),
+        Column(children: [
+          Text(tableData.resaleNumber.toString(), style: cellStyle)
+        ]),
       ]),
     ]);
   }
